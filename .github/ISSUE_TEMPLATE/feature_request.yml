@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest a thoughtful improvement to Gladly
+title: "[Idea]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the maintainer or contributor experience that could be better.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to happen?
+      description: Share the smallest useful version of your idea.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Tell us about any workarounds or related approaches.

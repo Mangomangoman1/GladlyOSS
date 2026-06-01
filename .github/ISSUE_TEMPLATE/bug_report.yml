@@ -1,0 +1,29 @@
+name: Bug report
+description: Tell us about a reproducible problem in Gladly
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Explain what you expected and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the smallest set of steps that shows the problem.
+    validations:
+      required: true
+  - type: input
+    id: repository
+    attributes:
+      label: Repository audited
+      description: Include the public repository URL when it is relevant.
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Include your browser and operating system.
