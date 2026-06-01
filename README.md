@@ -4,6 +4,8 @@
 
 Gladly audits the community-health files in any public GitHub repository, turns the gaps into a prioritized checklist, and generates thoughtful starter templates you can edit, copy, and download without creating an account.
 
+[Try the live demo](https://mangomangoman1.github.io/GladlyOSS/) or run it locally in a couple of minutes.
+
 ![Gladly repository readiness dashboard design preview](docs/images/gladly-preview.png)
 
 ## Why Gladly?
