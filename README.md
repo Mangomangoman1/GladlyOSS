@@ -2,7 +2,7 @@
 
 **A local-first readiness workbench for open-source repositories.**
 
-Gladly audits the community-health files in any public GitHub repository, turns the gaps into a prioritized checklist, and generates thoughtful starter templates you can edit, copy, and download without creating an account.
+Gladly audits the community-health files in any public GitHub repository, turns the gaps into a prioritized checklist, and generates thoughtful starter templates and shareable maintainer reports without requiring an account.
 
 [Try the live demo](https://mangomangoman1.github.io/GladlyOSS/) or run it locally in a couple of minutes.
 
@@ -21,6 +21,7 @@ Gladly makes that invisible friction visible.
 - Explains why each missing or recommended file matters.
 - Generates contextual starter files for the selected repository.
 - Lets you edit, copy, reset, and download templates in the browser.
+- Exports a Markdown readiness report for planning, issues, and handoffs.
 - Creates shareable audit URLs with `?repo=owner/repository`.
 - Includes an offline demo so the interface is immediately explorable.
 - Keeps the audit engine independent from React so it can later power a CLI or GitHub Action.
@@ -72,6 +73,7 @@ src/
   components/       React interface pieces
   lib/audit.ts      Weighted rules, scoring, and demo snapshot
   lib/github.ts     Public GitHub API adapter
+  lib/report.ts     Reusable Markdown readiness reports
   lib/templates.ts  Contextual starter-file generation
 ```
 
@@ -85,7 +87,6 @@ The first release is a useful starting point, not the finish line. Good next add
 - A GitHub Action that comments on readiness changes in pull requests.
 - Authenticated audits with higher API limits.
 - Custom rules for different project types and organizations.
-- Exportable Markdown reports.
 - A guided pull request flow that adds selected generated files.
 - Documentation quality and accessibility checks.
 

@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Public GitHub repository lookup without an account or token.
 - Prioritized findings with plain-language guidance.
 - Editable template workbench with copy, reset, and download actions.
+- Shareable Markdown readiness reports with copy, download, and link actions.
 - Offline demo workspace and shareable repository audit URLs.
 - Responsive desktop and mobile layouts.
 - Automated tests and continuous integration.

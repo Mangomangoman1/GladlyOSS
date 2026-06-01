@@ -4,11 +4,13 @@ import {
   GitPullRequest,
   LoaderCircle,
   RefreshCw,
+  Share2,
   Star,
 } from 'lucide-react'
 
 import { AuditOverview } from './components/AuditOverview'
 import { RepoForm } from './components/RepoForm'
+import { ReportDrawer } from './components/ReportDrawer'
 import { Sidebar } from './components/Sidebar'
 import { TemplateWorkbench } from './components/TemplateWorkbench'
 import {
@@ -48,6 +50,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [auditLabel, setAuditLabel] = useState('Demo workspace')
+  const [isReportOpen, setIsReportOpen] = useState(false)
 
   const runAudit = useCallback(async (input: string) => {
     setError(null)
@@ -102,6 +105,8 @@ function App() {
   }
 
   const repository = audit.repository
+  const shareUrl = new URL(window.location.href)
+  shareUrl.searchParams.set('repo', `${repository.owner}/${repository.name}`)
 
   return (
     <div className="app-shell">
@@ -138,6 +143,15 @@ function App() {
             <GitPullRequest size={15} />
             <span>{repository.openIssues} open</span>
           </div>
+
+          <button
+            className="export-button"
+            type="button"
+            onClick={() => setIsReportOpen(true)}
+          >
+            <Share2 size={17} />
+            Export report
+          </button>
 
           <button
             className="refresh-button"
@@ -179,6 +193,14 @@ function App() {
           selectedTemplate={selectedTemplate}
         />
       </main>
+
+      {isReportOpen ? (
+        <ReportDrawer
+          audit={audit}
+          onClose={() => setIsReportOpen(false)}
+          shareUrl={shareUrl.toString()}
+        />
+      ) : null}
     </div>
   )
 }

@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { fireEvent, render, screen, within } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 
 import App from './App'
 
@@ -59,5 +59,40 @@ describe('App', () => {
       screen.getByDisplayValue(/# Contributing to tiny-library/),
     ).toBeInTheDocument()
     expect(screen.getByText('Template reset')).toBeInTheDocument()
+  })
+
+  it('opens and closes a Markdown readiness report for the current audit', () => {
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: /export report/i }))
+
+    const dialog = screen.getByRole('dialog', { name: /readiness report/i })
+    expect(dialog).toBeInTheDocument()
+    expect(
+      within(dialog).getByLabelText('Readiness score: 75 out of 100'),
+    ).toBeInTheDocument()
+    expect(
+      within(dialog).getByRole('heading', { name: 'Best next steps' }),
+    ).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: /close report/i }))
+
+    expect(
+      screen.queryByRole('dialog', { name: /readiness report/i }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('copies the Markdown report and confirms the action', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.assign(navigator, { clipboard: { writeText } })
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: /export report/i }))
+    fireEvent.click(screen.getByRole('button', { name: /copy markdown/i }))
+
+    expect(await screen.findByText('Markdown copied')).toBeInTheDocument()
+    expect(writeText).toHaveBeenCalledWith(
+      expect.stringContaining('# tiny-library open-source readiness report'),
+    )
   })
 })
