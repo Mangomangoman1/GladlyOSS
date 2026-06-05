@@ -14,6 +14,10 @@ import type {
   RepositoryAudit,
   TemplateId,
 } from '../lib/audit'
+import {
+  getFindingImpact,
+  type FindingImpact,
+} from '../lib/impact'
 
 interface AuditOverviewProps {
   audit: RepositoryAudit
@@ -41,10 +45,12 @@ const statusIcons = {
 
 function FindingRow({
   finding,
+  impact,
   onSelectTemplate,
   selectedTemplate,
 }: {
   finding: AuditFinding
+  impact: FindingImpact
   onSelectTemplate: (templateId: TemplateId) => void
   selectedTemplate: TemplateId
 }) {
@@ -53,7 +59,9 @@ function FindingRow({
 
   return (
     <button
-      aria-label={`${finding.title}: ${statusLabels[finding.status]}`}
+      aria-label={`${finding.title}: ${statusLabels[finding.status]}${
+        impact.points > 0 ? `, ${impact.points} points available` : ''
+      }`}
       className={`finding-row${isSelected ? ' finding-row-selected' : ''}`}
       disabled={!finding.templateId}
       onClick={() => {
@@ -72,6 +80,11 @@ function FindingRow({
       <span className={`finding-status finding-status-${finding.status}`}>
         {statusLabels[finding.status]}
       </span>
+      {impact.points > 0 ? (
+        <span className="finding-impact">+{impact.points} pts</span>
+      ) : (
+        <span aria-hidden="true" className="finding-impact-placeholder" />
+      )}
       <ArrowRight aria-hidden="true" size={16} strokeWidth={1.8} />
     </button>
   )
@@ -149,6 +162,7 @@ export function AuditOverview({
           {audit.findings.map((finding) => (
             <FindingRow
               finding={finding}
+              impact={getFindingImpact(audit, finding)}
               key={finding.id}
               onSelectTemplate={onSelectTemplate}
               selectedTemplate={selectedTemplate}

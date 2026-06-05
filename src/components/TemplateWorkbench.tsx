@@ -7,6 +7,7 @@ import {
   FileText,
   RotateCcw,
   Sparkles,
+  TrendingUp,
 } from 'lucide-react'
 
 import type {
@@ -14,6 +15,7 @@ import type {
   RepositoryAudit,
   TemplateId,
 } from '../lib/audit'
+import { getTemplateImpact } from '../lib/impact'
 import {
   generateTemplate,
   getTemplateDefinition,
@@ -78,6 +80,10 @@ export function TemplateWorkbench({
   const [content, setContent] = useState(generatedTemplate)
   const [feedback, setFeedback] = useState('Ready to customize')
   const definition = getTemplateDefinition(selectedTemplate)
+  const impact = useMemo(
+    () => getTemplateImpact(audit, selectedTemplate),
+    [audit, selectedTemplate],
+  )
 
   useEffect(() => {
     setContent(generatedTemplate)
@@ -172,6 +178,18 @@ export function TemplateWorkbench({
         <p className="section-label">Why this matters</p>
         <h2>{definition.title}</h2>
         <p>{definition.description}</p>
+        {impact ? (
+          <div
+            className={`impact-note${
+              impact.isComplete ? ' impact-note-complete' : ''
+            }`}
+          >
+            <TrendingUp aria-hidden="true" size={16} />
+            <span>{impact.impactLabel}</span>
+            <strong>{impact.scoreLabel}</strong>
+            <p>{impact.detail}</p>
+          </div>
+        ) : null}
         <div className="local-note">
           <Check aria-hidden="true" size={15} />
           <span>Everything stays in your browser.</span>

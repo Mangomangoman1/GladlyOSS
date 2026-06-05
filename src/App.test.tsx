@@ -18,9 +18,19 @@ describe('App', () => {
   it('shows the matching starter file when a finding is selected', () => {
     render(<App />)
 
+    expect(
+      screen.getByRole('button', {
+        name: /contributing guide: missing, 15 points available/i,
+      }),
+    ).toBeInTheDocument()
+    expect(screen.getByText('+15 readiness impact')).toBeInTheDocument()
+    expect(screen.getByText('Projected score 90/100')).toBeInTheDocument()
+
     fireEvent.click(screen.getByRole('button', { name: /security policy/i }))
 
     expect(screen.getByText('SECURITY.md')).toBeInTheDocument()
+    expect(screen.getByText('+10 readiness impact')).toBeInTheDocument()
+    expect(screen.getByText('Projected score 85/100')).toBeInTheDocument()
     expect(
       screen.getByDisplayValue(/Reporting a vulnerability/),
     ).toBeInTheDocument()

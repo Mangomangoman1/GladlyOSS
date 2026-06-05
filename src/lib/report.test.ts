@@ -18,7 +18,7 @@ describe('generateReadinessReport', () => {
     expect(report).toContain('- [ ] Contributing guide — Missing')
     expect(report).toContain('- [ ] Security policy — Recommended')
     expect(report).toContain(
-      '1. **Contributing guide** — Turn interest into a clear first contribution path.',
+      '1. **Contributing guide** — +15 readiness impact; projected score 90/100. Turn interest into a clear first contribution path.',
     )
     expect(report).toContain(`[Open this audit in Gladly](${shareUrl})`)
   })

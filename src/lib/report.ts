@@ -4,6 +4,7 @@ import type {
   FindingStatus,
   RepositoryAudit,
 } from './audit'
+import { getFindingImpact } from './impact'
 
 const categoryLabels: Record<AuditCategory, string> = {
   essentials: 'Essentials',
@@ -28,8 +29,12 @@ function checklistLine(finding: AuditFinding) {
   return `- [${marker}] ${finding.title} — ${statusLabels[finding.status]}`
 }
 
-function nextStepsSection(findings: AuditFinding[]) {
-  const incompleteFindings = findings.filter(
+function lowercaseFirst(value: string) {
+  return value.charAt(0).toLowerCase() + value.slice(1)
+}
+
+function nextStepsSection(audit: RepositoryAudit) {
+  const incompleteFindings = audit.findings.filter(
     (finding) => finding.status !== 'complete',
   )
 
@@ -38,10 +43,11 @@ function nextStepsSection(findings: AuditFinding[]) {
   }
 
   return incompleteFindings
-    .map(
-      (finding, index) =>
-        `${index + 1}. **${finding.title}** — ${finding.description}`,
-    )
+    .map((finding, index) => {
+      const impact = getFindingImpact(audit, finding)
+
+      return `${index + 1}. **${finding.title}** — ${impact.impactLabel}; ${lowercaseFirst(impact.scoreLabel)}. ${finding.description}`
+    })
     .join('\n')
 }
 
@@ -77,7 +83,7 @@ ${audit.findings.map(checklistLine).join('\n')}
 
 ## Best next steps
 
-${nextStepsSection(audit.findings)}
+${nextStepsSection(audit)}
 
 ---
 
